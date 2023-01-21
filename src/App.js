@@ -5,10 +5,12 @@ import OutPutPage from "./Pages/OutPutPage/OutPutPage";
 import RegistrationPage from "./Pages/RegistrationPage/RegistrationPage";
 import SignInPage from "./Pages/SignInPage/SignInPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AuthProvider from "./Contexts/auth";
 
 
 export default function App() {
   return (
+    <AuthProvider>
     <BrowserRouter>
       <Container>
         <Routes>
@@ -20,6 +22,7 @@ export default function App() {
         </Routes>
       </Container>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 

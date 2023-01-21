@@ -5,9 +5,7 @@ import OutPutPage from "./Pages/OutPutPage/OutPutPage";
 import RegistrationPage from "./Pages/RegistrationPage/RegistrationPage";
 import SignInPage from "./Pages/SignInPage/SignInPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import dotenv from "dotenv";
 
-dotenv.config()
 
 export default function App() {
   return (

@@ -8,7 +8,7 @@ import {  useNavigate } from "react-router-dom";
 
 export default function InPutPage() {
   const [disable, setDisable] = useState(false);
-  const [value, setValue] = useState(0.00)
+  const [value, setValue] = useState("")
   const [description, setDescription] = useState("")
   const { userInfo } = useContext(AuthContext)
   const key = localStorage.getItem("key");

@@ -4,22 +4,21 @@ import styled from "styled-components";
 import Launch from "./Launch";
 import { REACT_APP_API_URL } from "../Constants/urls";
 
-export default function Movimentation({userToken,total, setTotal}) {
+export default function Movimentation({userInfo}) {
   const [movimentList, setMovimentList] = useState(undefined);
+  const [total, setTotal] = useState(0)
   const key = localStorage.getItem("key");
-
   const config = {
-    headers: { Authorization: `Bearer ${key || userToken}` },
+    headers: { Authorization: `Bearer ${key || userInfo.token}` },
   };
   
-
 
   useEffect(() => {
     axios
       .get(`${REACT_APP_API_URL}/home`, config)
       .then((res) => {
         setMovimentList(res.data);
-        console.log(res.data);
+        //console.log(res.data);
 
         let value = 0
 
@@ -36,7 +35,7 @@ export default function Movimentation({userToken,total, setTotal}) {
       })
       .catch((err) => console.log(err.message));
   }, []);
-  
+    
 
   return (
     <Box>
@@ -50,8 +49,6 @@ export default function Movimentation({userToken,total, setTotal}) {
               description={item.description}
               date={item.date}
               type={item.type}
-              total={total}
-              setTotal={setTotal}
             />
           ))}
 

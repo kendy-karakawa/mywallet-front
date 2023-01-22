@@ -10,7 +10,7 @@ export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [disable, setDisable] = useState(false);
-  const {setUserToken} = useContext(AuthContext)
+  const {setUserInfo} = useContext(AuthContext)
   const navigate = useNavigate();
 
   function login(e) {
@@ -21,14 +21,14 @@ export default function SignInPage() {
       .post(`${REACT_APP_API_URL}/`, info)
       .then((res) => {
         setDisable(false);
-        console.log(res.data)
-        const token = res.data
-        setUserToken(token)
-        localStorage.setItem("key", token)
+        //console.log(res.data)
+        setUserInfo(res.data)
+        localStorage.setItem("key", res.data.token)
+        localStorage.setItem("name", res.data.name)
         navigate("/home")
       })
       .catch((err) => {
-        console.log(err.response.data);
+        alert(err.response.data);
         setDisable(false);
       });
   }

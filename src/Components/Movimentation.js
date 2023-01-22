@@ -4,14 +4,13 @@ import styled from "styled-components";
 import Launch from "./Launch";
 import { REACT_APP_API_URL } from "../Constants/urls";
 
-export default function Movimentation({userInfo}) {
+export default function Movimentation({ userInfo }) {
   const [movimentList, setMovimentList] = useState(undefined);
-  const [total, setTotal] = useState(0)
+  const [total, setTotal] = useState(0);
   const key = localStorage.getItem("key");
   const config = {
     headers: { Authorization: `Bearer ${key || userInfo.token}` },
   };
-  
 
   useEffect(() => {
     axios
@@ -20,22 +19,30 @@ export default function Movimentation({userInfo}) {
         setMovimentList(res.data);
         //console.log(res.data);
 
-        let value = 0
+        let value = 0;
 
-        res.data.map((item) =>{
-          if(item.type === "input"){
-            return value += Number(item.value)
-          } else{
-            return value -= Number(item.value)
+        res.data.map((item) => {
+          if (item.type === "input") {
+            return (value += Number(item.value));
+          } else {
+            return (value -= Number(item.value));
           }
-        } )
+        });
 
-        setTotal(value.toFixed(2))
-
+        setTotal(value.toFixed(2));
       })
       .catch((err) => console.log(err.message));
-  }, []);
-    
+  }, [deleteLaunch]);
+
+  function deleteLaunch(id) {
+    if (window.confirm("Deseja deletar este lançamento")) {
+      console.log(config);
+      axios
+        .delete(`${REACT_APP_API_URL}/home/${id}`, config)
+        .then(() => alert("Deletado"))
+        .catch((err) => alert(err.response.data));
+    }
+  }
 
   return (
     <Box>
@@ -49,6 +56,7 @@ export default function Movimentation({userInfo}) {
               description={item.description}
               date={item.date}
               type={item.type}
+              deleteLaunch={deleteLaunch}
             />
           ))}
 
@@ -61,8 +69,11 @@ export default function Movimentation({userInfo}) {
       {movimentList !== undefined && movimentList.length !== 0 && (
         <Total>
           <p>SALDO</p>
-          {Number(total) < 0 ? <Balance col={"#C70000"}>{total}</Balance> : <Balance col={"#03AC00"}>{total}</Balance>}
-          
+          {Number(total) < 0 ? (
+            <Balance col={"#C70000"}>{total}</Balance>
+          ) : (
+            <Balance col={"#03AC00"}>{total}</Balance>
+          )}
         </Total>
       )}
     </Box>
@@ -100,18 +111,17 @@ const Total = styled.div`
     line-height: 20px;
     color: #000000;
   }
-  
 `;
 
 const Balance = styled.h1`
-    font-family: "Raleway";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 20px;
-    text-align: right;
-    color: ${(props)=>props.col};
-`
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 20px;
+  text-align: right;
+  color: ${(props) => props.col};
+`;
 
 const Coment = styled.div`
   display: flex;
@@ -124,5 +134,5 @@ const Coment = styled.div`
   line-height: 23px;
   text-align: center;
   color: #868686;
-  margin-top:200px;
+  margin-top: 200px;
 `;

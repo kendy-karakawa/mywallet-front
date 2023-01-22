@@ -1,17 +1,22 @@
+import { useState } from "react";
 import styled from "styled-components";
 
-export default function Launch({id,value,description,date,type,total,setTotal}) {
+export default function Launch({id,value,description,date,type,deleteLaunch}) {
+  const formattedValue = Number(value).toFixed(2)
 
- 
+  
+  
   return (
     <Box>
       <Discriptions>
         <h1>{date}</h1>
         <h2>{description}</h2>
       </Discriptions>
-      {type === "input" ? <Value cor={"#03AC00"}>{value}</Value> : 
-      <Value cor={"#C70000"}>{value}</Value>}
-      
+      <Div>
+      {type === "input" ? <Value cor={"#03AC00"}>{formattedValue}</Value> : 
+      <Value cor={"#C70000"}>{formattedValue}</Value>}
+      <ion-icon onClick={()=> deleteLaunch(id)} name="close-outline"></ion-icon>
+      </Div>
     </Box>
   );
 }
@@ -53,4 +58,13 @@ font-size: 16px;
 line-height: 19px;
 text-align: right;
 color: ${(props)=> props.cor};
+`
+const Div = styled.div`
+display:flex;
+ion-icon{
+  color: #C6C6C6;
+  margin-left:10px;
+}
+
+
 `
